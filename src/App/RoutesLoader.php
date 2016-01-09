@@ -24,7 +24,7 @@ class RoutesLoader
 
         $api->get('/status', $this->buldActionString(ServiceEnum::CONTROLLER_STATUS, 'get'));
         $api->get('/sensors', $this->buldActionString(ServiceEnum::CONTROLLER_SENSORS, 'getSensors'));
-
+        $api->get('/sensors/{uid}', $this->buldActionString(ServiceEnum::CONTROLLER_SENSORS, 'getSensorValue'));
         $this->app->mount($this->app["api.endpoint"].'/'.$this->app["api.version"], $api);
     }
 

@@ -2,6 +2,8 @@
 namespace App\Service;
 
 
+use App\Service\Sensor\DS18B20;
+
 class SensorService
 {
     const W1_PATH = '/sys/bus/w1/devices/';
@@ -21,6 +23,35 @@ class SensorService
         return $res;
     }
 
+    public function getSensorValueByUid($uid)
+    {
+        return $this->getSensorDriverByUid($uid)->read();
+    }
+
+    public function getSensorDriverByUid($uid)
+    {
+        //FIXME on this moment supported is only one sensor so hardcode it.
+        return new DS18B20($uid);
+    }
+
+    /**
+     * @param string $uid
+     * @return array()
+     */
+    public function getDeviceInfo($uid)
+    {
+        //FIXME this should return Object
+        //FIXME this function should use info from driver's classes. for now only one sensor is supported so hardcode info.
+        return array(
+            'measured' => 'temp',
+            'unit' => '°C',
+            'part' => 'DS18B20+',
+            'code' => 28,
+            'uid' => $uid
+        );
+    }
+
+
     /**
      * @param string $uid
      * @return bool
@@ -32,21 +63,5 @@ class SensorService
         }
 
         return false;
-    }
-
-    /**
-     * @param string $uid
-     * @return array()
-     */
-    private function getDeviceInfo($uid)
-    {
-        //FIXME this function should use info from driver's classes. for now only one sensor is supported so hardcode info.
-        return array(
-            'measured' => 'temp',
-            'unit' => '°C',
-            'part' => 'DS18B20+',
-            'code' => 28,
-            'uid' => $uid
-        );
     }
 }
