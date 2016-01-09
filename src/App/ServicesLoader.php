@@ -2,6 +2,7 @@
 namespace App;
 
 use App\Enum\ServiceEnum;
+use App\Service\SensorService;
 use App\Service\StatusService;
 use Silex\Application;
 
@@ -24,6 +25,10 @@ class ServicesLoader
     {
         $this->app[ServiceEnum::SERVICE_STATUS] = $this->app->share(function () {
             return new StatusService();
+        });
+
+        $this->app[ServiceEnum::SERVICE_SENSORS] = $this->app->share(function () {
+            return new SensorService();
         });
     }
 }
